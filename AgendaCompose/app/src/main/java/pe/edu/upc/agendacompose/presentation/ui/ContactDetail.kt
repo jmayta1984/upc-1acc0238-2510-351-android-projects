@@ -5,7 +5,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Save
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -19,7 +22,8 @@ import androidx.compose.ui.unit.dp
 @Preview
 @Composable
 fun ContactDetail(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onSave: () -> Unit = {}
 ) {
     val name = remember {
         mutableStateOf("")
@@ -37,10 +41,10 @@ fun ContactDetail(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-
+                    onSave()
                 }
             ) {
-
+                Icon(Icons.Default.Save, contentDescription = null)
             }
         }
 

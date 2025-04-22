@@ -16,7 +16,11 @@ import pe.edu.upc.agendacompose.domain.model.Contact
 
 @Preview
 @Composable
-fun ContactList(modifier: Modifier = Modifier) {
+fun ContactList(
+    modifier: Modifier = Modifier,
+    onAdd: () -> Unit = {}
+
+) {
 
     val contacts = emptyList<Contact>()
 
@@ -24,7 +28,7 @@ fun ContactList(modifier: Modifier = Modifier) {
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-
+                    onAdd()
                 }
             ) {
                 Icon(Icons.Default.Add, contentDescription = null)
