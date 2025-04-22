@@ -18,30 +18,37 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import pe.edu.upc.agendacompose.domain.model.Contact
 
 @Preview
 @Composable
 fun ContactDetail(
     modifier: Modifier = Modifier,
-    onSave: () -> Unit = {}
+    contact: Contact? = null,
+    onSave: (Contact) -> Unit = {}
 ) {
     val name = remember {
-        mutableStateOf("")
+        mutableStateOf(contact?.name ?: "")
     }
 
     val phone = remember {
-        mutableStateOf("")
+        mutableStateOf(contact?.phone ?: "")
     }
 
     val company = remember {
-        mutableStateOf("")
+        mutableStateOf(contact?.company ?: "")
     }
 
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    onSave()
+                    val contact = Contact(
+                        name = name.value,
+                        phone = phone.value,
+                        company = company.value
+                    )
+                    onSave(contact)
                 }
             ) {
                 Icon(Icons.Default.Save, contentDescription = null)
@@ -66,7 +73,8 @@ fun ContactDetail(
                 value = name.value,
                 onValueChange = {
                     name.value = it
-                })
+                }
+            )
 
             OutlinedTextField(
                 modifier = modifier

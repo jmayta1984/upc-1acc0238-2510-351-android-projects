@@ -1,28 +1,33 @@
 package pe.edu.upc.agendacompose.presentation.ui
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.Card
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import pe.edu.upc.agendacompose.domain.model.Contact
 
 @Preview
 @Composable
 fun ContactList(
     modifier: Modifier = Modifier,
-    onAdd: () -> Unit = {}
-
+    contacts: List<Contact> = emptyList<Contact>(),
+    onAdd: () -> Unit = {},
+    onSelect: (Contact) -> Unit = {}
 ) {
 
-    val contacts = emptyList<Contact>()
 
     Scaffold(
         floatingActionButton = {
@@ -38,11 +43,36 @@ fun ContactList(
         LazyColumn(modifier = modifier.padding(padding))
         {
             items(contacts) { contact ->
-                Text(contact.name)
-
-
+                ContactListItem(
+                    contact = contact,
+                    onSelect = onSelect
+                )
             }
         }
 
     }
+}
+
+@Composable
+fun ContactListItem(
+    modifier: Modifier = Modifier,
+    contact: Contact,
+    onSelect: (Contact) -> Unit
+) {
+    Card(
+        modifier = modifier.padding(8.dp),
+        onClick = {
+            onSelect(contact)
+        }
+    ) {
+        Column(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(8.dp)
+        ) {
+            Text(contact.name, fontWeight = FontWeight.Bold)
+            Text(contact.company)
+        }
+    }
+
 }
