@@ -1,18 +1,24 @@
 package pe.edu.upc.agendacompose.presentation.ui
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Card
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,7 +31,8 @@ fun ContactList(
     modifier: Modifier = Modifier,
     contacts: List<Contact> = emptyList<Contact>(),
     onAdd: () -> Unit = {},
-    onSelect: (Contact) -> Unit = {}
+    onSelect: (Contact) -> Unit = {},
+    onDelete: (Contact) -> Unit = {}
 ) {
 
 
@@ -45,7 +52,8 @@ fun ContactList(
             items(contacts) { contact ->
                 ContactListItem(
                     contact = contact,
-                    onSelect = onSelect
+                    onSelect = onSelect,
+                    onDelete = onDelete
                 )
             }
         }
@@ -57,7 +65,8 @@ fun ContactList(
 fun ContactListItem(
     modifier: Modifier = Modifier,
     contact: Contact,
-    onSelect: (Contact) -> Unit
+    onSelect: (Contact) -> Unit,
+    onDelete: (Contact) -> Unit
 ) {
     Card(
         modifier = modifier.padding(8.dp),
@@ -65,13 +74,25 @@ fun ContactListItem(
             onSelect(contact)
         }
     ) {
-        Column(
+
+        Row(
             modifier = modifier
                 .fillMaxWidth()
-                .padding(8.dp)
+                .padding(8.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(contact.name, fontWeight = FontWeight.Bold)
-            Text(contact.company)
+            Column {
+                Text(contact.name, fontWeight = FontWeight.Bold)
+                Text(contact.company)
+            }
+            IconButton(
+                onClick = {
+                    onDelete(contact)
+                }
+            ) {
+                Icon(Icons.Default.Delete, contentDescription = null)
+            }
         }
     }
 

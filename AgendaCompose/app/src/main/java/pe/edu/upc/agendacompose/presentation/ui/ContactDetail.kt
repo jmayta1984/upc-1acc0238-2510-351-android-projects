@@ -43,12 +43,15 @@ fun ContactDetail(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    val contact = Contact(
-                        name = name.value,
-                        phone = phone.value,
-                        company = company.value
+                    val id = contact?.id ?: (0..99).random()
+                    onSave(
+                        Contact(
+                            id = id,
+                            name = name.value,
+                            phone = phone.value,
+                            company = company.value
+                        )
                     )
-                    onSave(contact)
                 }
             ) {
                 Icon(Icons.Default.Save, contentDescription = null)
