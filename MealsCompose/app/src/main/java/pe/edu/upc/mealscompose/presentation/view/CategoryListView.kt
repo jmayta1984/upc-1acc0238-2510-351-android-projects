@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
@@ -19,7 +20,9 @@ import pe.edu.upc.mealscompose.presentation.di.PresentationModule
 import pe.edu.upc.mealscompose.presentation.viewmodel.CategoryListViewModel
 
 @Composable
-fun CategoryListView(categoryListViewModel: CategoryListViewModel = PresentationModule.getCategoryListViewModel()) {
+fun CategoryListView(
+    categoryListViewModel: CategoryListViewModel = PresentationModule.getCategoryListViewModel(),
+    onTap: (String?)->Unit ) {
     categoryListViewModel.getCategories()
 
     val categories = categoryListViewModel.categories.collectAsState()
@@ -27,11 +30,16 @@ fun CategoryListView(categoryListViewModel: CategoryListViewModel = Presentation
     Scaffold { padding ->
         LazyColumn(modifier = Modifier.padding(padding)) {
             items(categories.value) { category ->
-                Card(modifier = Modifier.padding(8.dp)) {
+                Card(
+                    modifier = Modifier.padding(8.dp),
+                    onClick = {
+                        onTap(category.name)
+                    }) {
                     Row {
                         AsyncImage(
                             model = category.poster ?: "",
                             contentDescription = null,
+                            modifier = Modifier.size(96.dp),
                         )
                         Column(
                             modifier = Modifier
