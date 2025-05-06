@@ -1,12 +1,10 @@
 package pe.edu.upc.mealscompose.data.repository
 
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.isActive
 import kotlinx.coroutines.withContext
 import pe.edu.upc.mealscompose.data.local.MealDao
 import pe.edu.upc.mealscompose.data.model.MealEntity
 import pe.edu.upc.mealscompose.data.model.MealMapper
-import pe.edu.upc.mealscompose.data.model.MealResponse
 import pe.edu.upc.mealscompose.data.remote.MealService
 import pe.edu.upc.mealscompose.domain.model.Meal
 
