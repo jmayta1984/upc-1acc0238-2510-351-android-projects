@@ -16,7 +16,6 @@ import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -43,22 +42,19 @@ fun MealListView(
     viewModel.getMealsByCategory(category)
     val meals = viewModel.meals.collectAsState()
 
-    Scaffold { padding ->
-        LazyColumn(modifier = Modifier.padding(padding)) {
-            items(meals.value) { meal ->
-                MealListItemView(meal) { isFavorite ->
-                    if (isFavorite) {
-                        viewModel.insertMeal(meal)
+    LazyColumn(modifier = Modifier.padding()) {
+        items(meals.value) { meal ->
+            MealListItemView(meal) { isFavorite ->
+                if (isFavorite) {
+                    viewModel.insertMeal(meal)
 
-                    } else {
-                        viewModel.deleteMeal(meal)
-                    }
-
+                } else {
+                    viewModel.deleteMeal(meal)
                 }
+
             }
         }
     }
-
 
 }
 
