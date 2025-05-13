@@ -18,7 +18,10 @@ data class NewsResponse(
             author = author ?: "",
             title = title ?: "",
             poster = urlToImage ?: "",
-            publishedAt = publishedAt ?: ""
+            publishedAt = publishedAt?.substring(0, 4) ?: "",
+            content = content ?: "",
+            source = source?.name ?: "",
+            description = description ?: ""
         )
     }
 }

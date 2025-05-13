@@ -18,4 +18,16 @@ class SearchNewsViewModel(private val newsRepository: NewsRepository) : ViewMode
             _news.value = newsRepository.searchNews(description)
         }
     }
+
+    fun insertNews(news: News) {
+        viewModelScope.launch {
+            newsRepository.insertNews(news)
+        }
+    }
+
+    fun deleteNews(news: News) {
+        viewModelScope.launch {
+            newsRepository.deleteNews(news)
+        }
+    }
 }

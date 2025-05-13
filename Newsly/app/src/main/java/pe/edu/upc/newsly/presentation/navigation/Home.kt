@@ -18,7 +18,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import pe.edu.upc.newsly.domain.model.News
 import pe.edu.upc.newsly.presentation.di.PresentationModule
+import pe.edu.upc.newsly.presentation.view.FavoriteNewsListView
+import pe.edu.upc.newsly.presentation.view.NewsDetailView
 import pe.edu.upc.newsly.presentation.view.SearchNewsView
 
 
@@ -44,9 +47,12 @@ fun Home() {
         mutableStateOf(0)
     }
 
+    val selectedNews = remember {
+        mutableStateOf<News?>(null)
+    }
     val searchNewsViewModel = PresentationModule.getSearchNewsViewModel()
-
-    Scaffold (
+val favoriteNewsListViewModel = PresentationModule.getFavoriteNewsListViewModel()
+    Scaffold(
         bottomBar = {
             NavigationBar {
                 navigationItems.forEachIndexed { index, item ->
@@ -67,7 +73,7 @@ fun Home() {
             }
         }
 
-    ){ padding ->
+    ) { padding ->
         NavHost(
             navController,
             startDestination = "search_news",
@@ -76,12 +82,29 @@ fun Home() {
 
             composable("search_news")
             {
-                SearchNewsView(searchNewsViewModel)
+                SearchNewsView(searchNewsViewModel) { news ->
+                    selectedNews.value = news
+                    navController.navigate("news_detail")
+                }
             }
             composable("news_detail")
-            { }
+            {
+                selectedNews.value?.let { news ->
+                    NewsDetailView(news) { isFavorite ->
+                        if (isFavorite) {
+                            searchNewsViewModel.insertNews(news)
+                        } else {
+                            searchNewsViewModel.deleteNews(news)
+
+                        }
+                    }
+
+                }
+            }
             composable("favorites")
-            { }
+            {
+                FavoriteNewsListView(favoriteNewsListViewModel)
+            }
         }
     }
 

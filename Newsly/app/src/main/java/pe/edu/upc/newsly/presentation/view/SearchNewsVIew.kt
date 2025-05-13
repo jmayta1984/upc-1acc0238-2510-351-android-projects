@@ -27,7 +27,10 @@ import pe.edu.upc.newsly.domain.model.News
 import pe.edu.upc.newsly.presentation.viewmodel.SearchNewsViewModel
 
 @Composable
-fun SearchNewsView(viewModel: SearchNewsViewModel) {
+fun SearchNewsView(
+    viewModel: SearchNewsViewModel,
+    onTap: (News) -> Unit
+) {
 
     val description = remember {
         mutableStateOf("")
@@ -54,15 +57,23 @@ fun SearchNewsView(viewModel: SearchNewsViewModel) {
         )
         LazyColumn {
             items(news.value) { news ->
-                NewsListItemView(news)
+                NewsListItemView(news = news, onTap = onTap)
             }
         }
     }
 }
 
 @Composable
-fun NewsListItemView(news: News) {
-    Card (modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)){
+fun NewsListItemView(
+    news: News,
+    onTap: (News) -> Unit
+) {
+    Card(
+        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+        onClick = {
+            onTap(news)
+        }
+    ) {
         Column {
             AsyncImage(
                 model = news.poster,
@@ -72,9 +83,10 @@ fun NewsListItemView(news: News) {
                     .height(256.dp),
                 contentScale = ContentScale.Crop
             )
-            Column (modifier = Modifier.padding(8.dp)){
+            Column(modifier = Modifier.padding(8.dp)) {
                 Text(news.title, fontWeight = FontWeight.Bold, maxLines = 1)
                 Text(news.author)
+                Text(news.publishedAt)
 
             }
 
